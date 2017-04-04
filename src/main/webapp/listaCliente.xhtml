@@ -1,0 +1,110 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Todos os Clientes</title>
+    </h:head>
+    <h:body>
+        <ui:include src="menuPetsLive.xhtml"/>
+        <p:separator/>
+        
+        <h:form id="formularioListaCliente">
+            <p:dataTable id="tabelaCliente" value="#{controleCliente.listarTodos()}" var="cli" emptyMessage="Nenhum registro incluido" paginator="true" rows="5" rowKey="#{cli.id_cliente}"  >
+                <f:facet name="header">
+                    Clientes Cadastrados
+                </f:facet>
+                <p:column headerText="Id:" style="text-align: center">
+                    <h:outputText value="#{cli.id_cliente}"/>
+                </p:column>
+                <p:column headerText="Nome:" style="text-align: center" filterBy="#{cli.nome_cliente}">
+                    <h:outputText value="#{cli.nome_cliente}"/>
+                </p:column>
+                <p:column headerText="Endereço:" style="text-align: center">
+                    <h:outputText value="#{cli.endereco}"/>
+                </p:column>
+                <p:column headerText="Celular:" style="text-align: center">
+                    <h:outputText value="#{cli.celular}"/>
+                </p:column>
+                <p:column headerText="Telefone fixo:" style="text-align: center" >
+                    <h:outputText value="#{cli.telefone_fixo}"/>
+                </p:column>
+                <p:column headerText="Email:" style="text-align: center" >
+                    <h:outputText value="#{cli.email}"/>
+                </p:column>
+                
+                <p:column headerText="" style="text-align: center">
+                    <p:commandButton icon="ui-icon-heart" oncomplete="location.href='listaPetsMedico.xhtml'" title="Pets" >
+                        <f:setPropertyActionListener target="#{controleCliente.selectedCliente}" value="#{cli}"/> 
+                    </p:commandButton>
+                    <p:commandButton icon="ui-icon-search" oncomplete="PF('widDialVisualiza').show()"
+                                     update=':formularioListaCliente:dialVisualiza' title="visualizar">
+                       <f:setPropertyActionListener  target="#{controleCliente.selectedCliente}" value="#{cli}"/>
+                    </p:commandButton>
+                    <br/>
+                    <p:commandButton icon="ui-icon-pencil" oncomplete="location.href='AlterarCliente.xhtml'" title="Alterar" >
+                        <f:setPropertyActionListener target="#{controleCliente.selectedCliente}" value="#{cli}"/> 
+                    </p:commandButton>
+                    
+                    <p:commandButton icon="ui-icon-trash" oncomplete="PF('widDialExcluir').show()" title="Excluir" >
+                        <f:setPropertyActionListener target="#{controleCliente.selectedCliente}" value="#{cli}"/> 
+                    </p:commandButton>
+                  
+                </p:column>
+            </p:dataTable>
+            
+            <p:dialog id="dialVisualiza" visible="false" resizable="false" modal="true"
+                      widgetVar="widDialVisualiza">
+                
+                <p:panelGrid columns="2">
+                    <h:outputText value="id:"/>
+                    <h:outputText value="#{controleCliente.selectedCliente.id_cliente}"/>
+                    
+                    <h:outputText value="Nome:"/>
+                    <h:outputText value="#{controleCliente.selectedCliente.nome_cliente}"/>
+                    
+                    
+                    <h:outputText value="CPF:"/>
+                    <h:outputText value="#{controleCliente.selectedCliente.cpf}"/>
+                    
+                    
+                    <h:outputText value="Endereço:"/>
+                    <h:outputText value="#{controleCliente.selectedCliente.endereco}"/>
+                    
+                    
+                    <h:outputText value="Telefone Fixo:"/>
+                    <h:outputText value="#{controleCliente.selectedCliente.telefone_fixo}"/>
+                    
+                    
+                    <h:outputText value="Celular:"/>
+                    <h:outputText value="#{controleCliente.selectedCliente.celular}"/>
+                    
+                    
+                    <h:outputText value="Genero:"/>
+                    <h:outputText value="#{controleCliente.selectedCliente.genero}"/>
+                    
+                    
+                    <h:outputText value="Email:"/>
+                    <h:outputText value="#{controleCliente.selectedCliente.email}"/>
+                </p:panelGrid>
+            </p:dialog>
+              <p:confirmDialog id="DialExcluir" visible="false" message="Deseja Realmente Excluir?"
+                widgetVar="widDialExcluir">
+                    <f:facet name="header">
+                    Atenção!!!
+                </f:facet>
+                  
+                  <p:commandButton value="Sim" action="#{controleCliente.deletarCliente(controleCliente.selectedCliente)}"
+                                 oncomplete="PF('widDialExcluir').hide()" update="formularioListaCliente"/>
+                <p:commandButton value="Não" oncomplete="PF('widDialExcluir').hide()"/>
+            </p:confirmDialog>
+
+            
+        </h:form>
+        
+    </h:body>
+</html>
+

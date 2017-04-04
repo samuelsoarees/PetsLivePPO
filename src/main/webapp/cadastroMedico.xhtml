@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Cadastro do Medico</title>
+    </h:head>
+    <h:body>
+        <ui:include src="menuAdm.xhtml"/>
+        <p:separator/>
+        <p:growl id="gro" life="3000"/>
+        
+        <h:form id="formularioDeMedico">
+            <p:fieldset legend="Cadastro de Medico">
+
+                    <p:panelGrid columns="3">
+                        
+                    <h:outputText value="Nome*: "/>
+                    <p:inputText id="nome_medico" value="#{bMedico.nome_medico}" required="true" requiredMessage="O nome não foi Digitado!"/>
+                    <p:message for="nome_medico"/>
+                    
+                    <h:outputText value="CPF: "/>
+                    <p:inputText id="cpf" value="#{bMedico.cpf}"/>
+                    <p:message for="cpf"/>
+                    
+                    <h:outputText value="Endereço: " />
+                    <p:inputText id="endereco" value="#{bMedico.endereco}" />
+                    <p:message for="endereco" />
+                    
+                    
+                    <h:outputText value="Genero: "/>
+                    <p:selectOneRadio id="genero" value="#{bMedico.genero}">
+                        <f:selectItem itemLabel="Masculino" itemValue="m"/>
+                        <f:selectItem itemLabel="Feminino" itemValue="f"/>
+                    </p:selectOneRadio >
+                    <p:message for="genero"/>
+                    
+                    <h:outputText value="Email: "/>
+                    <p:inputText id="email" value="#{bMedico.email}"/>
+                    <p:message for="email"/>
+                     <h:outputLabel for="pwd1" value="Senha: *" />
+                    <p:password id="pwd1" value="#{bMedico.senha}" match="pwd2" label="Senha 1" required="true" requiredMessage="A senha está incorreta!"/>
+                    <p:message for="pwd1"/>
+                    
+                    <h:outputLabel for="pwd2" value="confirma senha: *" />
+                    <p:password id="pwd2" value="#{bMedico.senha}" label="Senha 2" required="true" />
+                    <h:outputText/>
+                    
+                    </p:panelGrid>
+                    
+                 <p:commandButton value="Cadastrar"  oncomplete="PF('widConfirmaCadastroMedico').show()" /> 
+                     <p:commandButton value="Limpar Campos" type="reset"/>
+                
+            </p:fieldset>
+            <p:confirmDialog id="idConfirmaCadastroMedico" visible="false" message="Deseja cadastrar o medico com essas informações?" widgetVar="widConfirmaCadastroMedico">
+                <f:facet name="header">
+                     Confirmação!!!
+                 </f:facet>
+                <p:commandButton value="Sim" action="#{controleMedico.inserirMedico(bMedico.builderMedico())}" oncomplete="PF('widConfirmaCadastroMedico').hide()" update="formularioDeMedico"/>
+                 <p:commandButton value="Não" oncomplete="PF('widConfirmaCadastroMedico').hide()"/>
+             </p:confirmDialog>
+            
+        </h:form>
+       
+    </h:body>
+</html>
+

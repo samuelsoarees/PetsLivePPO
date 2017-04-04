@@ -1,0 +1,80 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Cadastro de Cliente</title>
+    </h:head>
+    <h:body>
+        
+        <ui:include src="menuPetsLive.xhtml"/>
+        <p:separator/>
+        <p:growl id="gro" life="3000"/>
+        
+        <h:form id="formularioDeCliente">
+            <p:fieldset legend="Cadastro de Cliente">
+
+                    <p:panelGrid columns="3">
+                        
+                    <h:outputText value="Nome*: "/>
+                    <p:inputText id="nome_cliente" value="#{bCliente.nome_cliente}" required="true" requiredMessage="O nome não foi Digitado!"/>
+                    <p:message for="nome_cliente"/>
+                    
+                    <h:outputText value="CPF: "/>
+                    <p:inputText id="cpf" value="#{bCliente.cpf}"/>
+                    <p:message for="cpf"/>
+                    
+                    <h:outputText value="Endereço: " />
+                    <p:inputText id="endereco" value="#{bCliente.endereco}" />
+                    <p:message for="endereco" />
+                    
+                    <h:outputText value="Telefone Fixo: " />
+                    <p:inputText id="telefone_fixo" value="#{bCliente.telefone_fixo}" />
+                    <p:message for="telefone_fixo" />
+                    
+                    <h:outputText value="Celular: " />
+                    <p:inputText id="celular" value="#{bCliente.celular}"/>
+                    <p:message for="celular" />
+                    
+                    <h:outputText value="Genero: "/>
+                    <p:selectOneRadio id="genero" value="#{bCliente.genero}">
+                        <f:selectItem itemLabel="Masculino" itemValue="m"/>
+                        <f:selectItem itemLabel="Feminino" itemValue="f"/>
+                    </p:selectOneRadio >
+                    <p:message for="genero"/>
+                    
+                    <h:outputText value="Email: "/>
+                    <p:inputText id="email" value="#{bCliente.email}"/>
+                    <p:message for="email"/>
+                
+
+                    <h:outputLabel for="pwd1" value="Senha: *" />
+                    <p:password id="pwd1" value="#{bCliente.senha}" match="pwd2" label="Senha 1" required="true" requiredMessage="A senha está incorreta!"/>
+                    <p:message for="pwd1"/>
+                    
+                    <h:outputLabel for="pwd2" value="confirma senha: *" />
+                    <p:password id="pwd2" value="#{bCliente.senha}" label="Senha 2" required="true" />
+                    <h:outputText/>
+                    
+                    </p:panelGrid>
+                    
+                 <p:commandButton value="Cadastrar"  oncomplete="PF('widConfirmaCadastroCliente').show()" /> 
+                     <p:commandButton value="Limpar Campos" type="reset"/>
+                
+            </p:fieldset>
+            <p:confirmDialog id="idConfirmaCadastroCliente" visible="false" message="Deseja cadastrar o cliente com essas informações?" widgetVar="widConfirmaCadastroCliente">
+                <f:facet name="header">
+                     Confirmação!!!
+                 </f:facet>
+                <p:commandButton value="Sim" action="#{controleCliente.inserirCliente(bCliente.builderCliente())}" oncomplete="PF('widConfirmaCadastroCliente').hide()" update="formularioDeCliente"/>
+                 <p:commandButton value="Não" oncomplete="PF('widConfirmaCadastroCliente').hide()"/>
+             </p:confirmDialog>
+            
+        </h:form>
+        
+    </h:body>
+</html>
+

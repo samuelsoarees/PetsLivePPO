@@ -1,0 +1,76 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Alterar Cliente</title>
+    </h:head>
+    <h:body>
+        <ui:include src="menuPetsLive.xhtml"/>
+        <p:separator/>
+        
+        <h:form id="formularioAlteraCliente">
+            <h:commandLink action="listaCliente.xhtml"> Voltar</h:commandLink>
+            
+            <p:fieldset legend="Alterar Cliente">
+                
+                <p:panelGrid columns="3"> 
+                    
+                <h:outputText value="Nome*: "/>
+                <p:inputText id="nome_cliente" value="#{controleCliente.selectedCliente.nome_cliente}"/>
+                <p:message for="nome_cliente" />
+                
+                <h:outputText value="CPF: "/>
+                <p:inputText id="cpf" value="#{controleCliente.selectedCliente.cpf}"/>
+                <p:message for="cpf" />
+                
+                <h:outputText value="Endereço: "/>
+                <p:inputText id="endereco" value="#{controleCliente.selectedCliente.endereco}"/>
+                <p:message for="endereco" />
+                
+                <h:outputText value="Telefone Fixo: "/>
+                <p:inputText id="telefone_fixo" value="#{controleCliente.selectedCliente.telefone_fixo}"/>
+                <p:message for="telefone_fixo" />
+                
+                <h:outputText value="Celular: "/>
+                <p:inputText id="celular" value="#{controleCliente.selectedCliente.celular}"/>
+                <p:message for="celular" />
+                 
+                <h:outputText value="Genero: "/>
+                <p:selectOneRadio id="genero" value="#{controleCliente.selectedCliente.genero}">
+                        <f:selectItem itemLabel="Masculino" itemValue="m"/>
+                        <f:selectItem itemLabel="Feminino" itemValue="f"/>
+                    </p:selectOneRadio >
+                    <p:message for="genero"/>
+                    
+                    <h:outputText value="Email: "/>
+                    <p:inputText id="email" value="#{controleCliente.selectedCliente.email}"/>
+                    <p:message for="email"/>
+                    
+                    <h:outputText value="Senha: "/>
+                    <p:inputText type="password" id="senha" value="#{controleCliente.selectedCliente.senha}"/>
+                    <p:message for="senha"/>
+                    
+                </p:panelGrid>
+                
+                    <p:commandButton value="Alterar"  oncomplete="PF('widAlteraCliente').show()" /> 
+                    <p:commandButton value="Limpar Campos" type="reset"/>
+                    
+                    
+         </p:fieldset>
+             
+             
+             <p:confirmDialog id="idAlteraCliente" visible="false" message="Deseja alterar cliente?" widgetVar="widAlteraCliente">
+                 <f:facet name="header">
+                     Confirmação!!!
+                 </f:facet>
+                 <p:commandButton value="Sim" action="#{controleCliente.alterarCliente(controleCliente.selectedCliente)}" oncomplete="PF('widAlteraCliente').hide()" update="formularioAlteraCliente"/>
+                 <p:commandButton value="Não" oncomplete="PF('widAlteraCliente').hide()"/>
+             </p:confirmDialog>
+        </h:form>
+    </h:body>
+</html>
+

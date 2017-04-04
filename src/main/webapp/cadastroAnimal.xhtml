@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+         <title>Cadastro de Animal</title>
+    </h:head>
+    <h:body>
+         
+        <ui:include src="menuPetsLive.xhtml"/>
+        <p:separator/>
+        <p:growl id="gro" life="3000"/>
+        
+         <h:form id="formularioDeAnimal">  
+         <p:fieldset legend="Cadastro de Animal">
+                    
+                    <p:panelGrid columns="3">
+                        
+                    <h:outputText value="Nome*: "/>
+                    <p:inputText id="nome_animal" value="#{bAnimal.nome_animal}" required="true" requiredMessage="O nome não foi Digitado!"/>
+                     <p:message for="nome_animal"/>
+                    
+                    <h:outputText value="Especie: "/>
+                    <p:inputText id="especie" value="#{bAnimal.especie}"/>
+                    <p:message for="especie"/>
+                    
+                    <h:outputText value="Raça: "/>
+                    <p:inputText id="raca" value="#{bAnimal.raca}"/>
+                      <p:message for="raca"/>
+                    
+                    <h:outputText value="Idade: "/>
+                    <p:inputText id="idade" value="#{bAnimal.idade}"/>
+                    <p:message for="idade"/>
+                    
+                    <h:outputText value="Sexo: "/>
+                    <p:selectOneRadio id="sexo" value="#{bAnimal.sexo}">
+                        <f:selectItem itemLabel="Macho" itemValue="m"/>
+                        <f:selectItem itemLabel="Femea" itemValue="f"/>
+                    </p:selectOneRadio >
+                    <p:message for="sexo"/>
+                    
+                    <h:outputText value="Dono: "/>
+                    <p:selectOneMenu id="dono" value="#{bAnimal.dono.id_cliente}" filter="true" filterMatchMode="startsWith" >
+                        <f:selectItems value="#{controleCliente.listarTodos()}" var="cli" itemValue="#{cli.id_cliente}" 
+                                       itemLabel="#{cli.nome_cliente}" />
+                    </p:selectOneMenu>
+                    <p:message for="dono"/>
+               
+                    </p:panelGrid>
+                    
+                     <p:commandButton value="Cadastrar"  oncomplete="PF('widConfirmaCadastroAnimal').show()" /> 
+                     <p:commandButton value="Limpar Campos" type="reset"/>
+            </p:fieldset>
+                  
+             <p:confirmDialog id="idConfirmaCadastroAnimal" visible="false" message="Deseja cadastrar o animal com essas informações?" widgetVar="widConfirmaCadastroAnimal">
+                 <f:facet name="header">
+                     Confirmação!!!
+                 </f:facet>
+                 <p:commandButton value="Sim" action="#{controleAnimal.inserirAnimal(bAnimal.builderAnimal())}" oncomplete="PF('widConfirmaCadastroAnimal').hide()" update="formularioDeAnimal"/>
+                 <p:commandButton value="Não" oncomplete="PF('widConfirmaCadastroAnimal').hide()"/>
+             </p:confirmDialog>
+         
+
+            </h:form>
+    </h:body>
+</html>
+

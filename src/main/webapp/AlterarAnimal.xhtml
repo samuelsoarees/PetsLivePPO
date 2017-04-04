@@ -1,0 +1,73 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Alterar Animal</title>
+    </h:head>
+    <h:body>
+        <ui:include src="menuPetsLive.xhtml"/>
+        <p:separator/>
+        
+        <h:form id="formularioAlteraAnimal">
+            <h:commandLink action="listaAnimais.xhtml"> Voltar</h:commandLink>
+            
+            <p:fieldset legend="Alterar Animal">
+                
+                <p:panelGrid columns="3"> 
+                    
+                <h:outputText value="Nome*: "/>
+                <p:inputText id="nome_animal" value="#{controleAnimal.selectedAnimal.nome_animal}"/>
+                <p:message for="nome_animal" />
+                
+                
+                   <h:outputText value="Especie: "/>
+                   <p:inputText id="especie" value="#{controleAnimal.selectedAnimal.especie}"/>
+                    <p:message for="especie"/>
+                    
+                    <h:outputText value="Raça: "/>
+                    <p:inputText id="raca" value="#{controleAnimal.selectedAnimal.raca}"/>
+                      <p:message for="raca"/>
+                    
+                    <h:outputText value="Idade: "/>
+                    <p:inputText id="idade" value="#{controleAnimal.selectedAnimal.idade}"/>
+                    <p:message for="idade"/>
+                    
+                    <h:outputText value="Sexo: "/>
+                    <p:selectOneRadio id="sexo" value="#{controleAnimal.selectedAnimal.sexo}">
+                        <f:selectItem itemLabel="Macho" itemValue="m"/>
+                        <f:selectItem itemLabel="Femea" itemValue="f"/>
+                    </p:selectOneRadio >
+                    <p:message for="sexo"/>
+                    
+                    <h:outputText value="Dono: "/>
+                    <p:selectOneMenu id="dono" value="#{controleAnimal.selectedAnimal.dono.id_cliente}" filter="true" filterMatchMode="startsWith" >
+                        <f:selectItems value="#{controleCliente.listarTodos()}" var="cli" itemValue="#{cli.id_cliente}" 
+                                       itemLabel="#{cli.nome_cliente}" />
+                    </p:selectOneMenu>
+                    <p:message for="dono"/>
+                
+                    </p:panelGrid>
+                
+                    <p:commandButton value="Alterar"  oncomplete="PF('widAlteraAnimal').show()" /> 
+                    <p:commandButton value="Limpar Campos" type="reset"/>
+                    
+                    
+         </p:fieldset>
+             
+             
+             <p:confirmDialog id="idAlteraAnimal" visible="false" message="Deseja alterar animal?" widgetVar="widAlteraAnimal">
+                 <f:facet name="header">
+                     Confirmação!!!
+                 </f:facet>
+                 <p:commandButton value="Sim" action="#{controleAnimal.alterarAnimal(controleAnimal.selectedAnimal)}" oncomplete="PF('widAlteraAnimal').hide()" update="formularioAlteraAnimal"/>
+                 <p:commandButton value="Não" oncomplete="PF('widAlteraAnimal').hide()"/>
+             </p:confirmDialog>
+        </h:form>        
+        
+    </h:body>
+</html>
+

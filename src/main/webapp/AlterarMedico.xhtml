@@ -1,0 +1,67 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <title>Alterar Medica</title>
+    </h:head>
+    <h:body>
+        <ui:include src="menuAdm.xhtml"/>
+        <p:separator/>
+        
+        <h:form id="formularioAlteraMedico">
+            <a href="listaMedico.xhtml">voltar</a>
+            <p:fieldset legend="Alterar Medico">
+                
+                <p:panelGrid columns="3"> 
+                    
+                <h:outputText value="Nome*: "/>
+                <p:inputText id="nome_medico" value="#{controleMedico.selectedMedico.nome_medico}"/>
+                <p:message for="nome_medico" />
+                
+                <h:outputText value="CPF: "/>
+                <p:inputText id="cpf" value="#{controleMedico.selectedMedico.cpf}"/>
+                <p:message for="cpf" />
+                
+                <h:outputText value="Endereço: "/>
+                <p:inputText id="endereco" value="#{controleMedico.selectedMedico.endereco}"/>
+                <p:message for="endereco" />
+              
+                <h:outputText value="Genero: "/>
+                <p:selectOneRadio id="genero" value="#{controleMedico.selectedMedico.genero}">
+                        <f:selectItem itemLabel="Masculino" itemValue="m"/>
+                        <f:selectItem itemLabel="Feminino" itemValue="f"/>
+                    </p:selectOneRadio >
+                    <p:message for="genero"/>
+                    
+                    <h:outputText value="Email: "/>
+                    <p:inputText id="email" value="#{controleMedico.selectedMedico.email}"/>
+                    <p:message for="email"/>
+                    
+                    <h:outputText value="Senha: "/>
+                    <p:inputText type="password" id="senha" value="#{controleMedico.selectedMedico.senha}"/>
+                    <p:message for="senha"/>
+                    
+                </p:panelGrid>
+                
+                    <p:commandButton value="Alterar"  oncomplete="PF('widAlteraMedico').show()" /> 
+                    <p:commandButton value="Limpar Campos" type="reset"/>
+                    
+                    
+         </p:fieldset>
+             
+             
+             <p:confirmDialog id="idAlteraMedico" visible="false" message="Deseja alterar medico?" widgetVar="widAlteraMedico">
+                 <f:facet name="header">
+                     Confirmação!!!
+                 </f:facet>
+                 <p:commandButton value="Sim" action="#{controleMedico.alterarMedico(controleMedico.selectedMedico)}" oncomplete="PF('widAlteraMedico').hide()" update="formularioAlteraMedico"/>
+                 <p:commandButton value="Não" oncomplete="PF('widAlteraMedico').hide()"/>
+             </p:confirmDialog>
+        </h:form>
+    </h:body>
+</html>
+

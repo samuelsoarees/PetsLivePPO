@@ -1,0 +1,154 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <title>Todos os Animais</title>
+    </h:head>
+    <h:body>
+        <p:growl id="gro" life="5000"/>
+        <ui:include src="menuPetsLive.xhtml"/>
+        <p:separator/>
+        
+        <h:form id="formularioListaAnimal">
+            <p:dataTable id="tabelaAnimal" value="#{controleAnimal.listarTodos()}" var="ani" emptyMessage="Nenhum registro incluido" paginator="true" rows="5" rowKey="#{ani.id_animal}"  >
+                <f:facet name="header">
+                    Animais Cadastrados
+                </f:facet>
+                <p:column headerText="Id:" style="text-align: center">
+                    <h:outputText value="#{ani.id_animal}"/>
+                </p:column>
+                <p:column headerText="Nome do animal:" style="text-align: center" filterBy="#{ani.nome_animal}">
+                    <h:outputText value="#{ani.nome_animal}"/>
+                </p:column>
+                <p:column headerText="Idade:" style="text-align: center">
+                    <h:outputText value="#{ani.idade}"/>
+                </p:column>
+                <p:column headerText="Especie:" style="text-align: center">
+                    <h:outputText value="#{ani.especie}"/>
+                </p:column>
+                <p:column headerText="Raça:" style="text-align: center" >
+                    <h:outputText value="#{ani.raca}"/>
+                </p:column>
+                <p:column headerText="Sexo:" style="text-align: center" >
+                    <h:outputText value="#{ani.sexo}"/>
+                </p:column>
+                <p:column headerText="Dono:" style="text-align: center" >
+                    <h:outputText  value="#{ani.dono.nome_cliente}"/> 
+                   
+                </p:column>
+                
+                <p:column headerText="" style="text-align: center" >
+                    <p:commandButton icon="ui-icon-plus" oncomplete="PF('widDialNovoPro').show()"
+                                     update=":formularioListaAnimal:tabelaAnimal" title="Novo Prontuario">
+                        <f:setPropertyActionListener target="#{controleAnimal.selectedAnimal}" value="#{ani}"/>
+                    </p:commandButton>    
+                    <p:commandButton icon="ui-icon-comment" oncomplete="PF('widDialProntuarios').show()"
+                                     update=":formularioListaAnimal:tabelaProntuario" title="Prontuarios">
+                        <f:setPropertyActionListener target="#{controleAnimal.selectedAnimal}" value="#{ani}"/>
+                    </p:commandButton>
+                    <p:commandButton icon="ui-icon-search" oncomplete="PF('widDialVisualiza').show()"
+                                     update=':formularioListaAnimal:dialVisualiza' title="visualizar">
+                       <f:setPropertyActionListener  target="#{controleAnimal.selectedAnimal}" value="#{ani}"/>
+                    </p:commandButton>
+                    <br/>
+                    <p:commandButton icon="ui-icon-pencil" oncomplete="location.href='AlterarAnimal.xhtml'" title="Alterar" >
+                        <f:setPropertyActionListener target="#{controleAnimal.selectedAnimal}" value="#{ani}"/> 
+                    </p:commandButton>
+                    
+                    <p:commandButton icon="ui-icon-trash" oncomplete="PF('widDialExcluir').show()" title="Excluir" >
+                        <f:setPropertyActionListener target="#{controleAnimal.selectedAnimal}" value="#{ani}"/> 
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+            
+            <p:dialog id="dialProntuarios" visible="false" resizable="false" modal="true"
+                widgetVar="widDialProntuarios">
+                
+                <p:dataTable id="tabelaProntuario" value="#{controleAnimal.selectedAnimal.prontuario}" var="pro" emptyMessage="Nenhum registro incluido" paginator="true" rows="10" rowKey="#{pro.id_prontuario}"  >
+                <f:facet name="header">
+                    <h:outputText value="Prontuarios de #{controleAnimal.selectedAnimal.nome_animal}"/>
+                </f:facet>
+                
+                    <p:column headerText="Id:" style="text-align: center">
+                        <h:outputText value="#{pro.id_prontuario}"/>
+                    </p:column>
+                    <p:column headerText="Data:" style="text-align: center">
+                        <h:outputText value="#{pro.data} "/>
+                    </p:column>
+                    <p:column>
+                    <p:commandButton icon="ui-icon-comment" oncomplete="location.href='prontuarioMedico.xhtml'" title="Prontuario" >
+                            <f:setPropertyActionListener target="#{controleProntuario.selectedProntuario}" value="#{pro}"/> 
+                    </p:commandButton>
+                    </p:column>
+                    
+                </p:dataTable>
+            </p:dialog>
+            
+             <p:dialog id="dialVisualiza" visible="false" resizable="false" modal="true"
+                      widgetVar="widDialVisualiza">
+                
+                <p:panelGrid columns="2">
+                    <h:outputText value="id:"/>
+                    <h:outputText value="#{controleAnimal.selectedAnimal.id_animal}"/>
+                    
+                    <h:outputText value="Nome:"/>
+                    <h:outputText value="#{controleAnimal.selectedAnimal.nome_animal}"/>
+                    
+                    
+                    <h:outputText value="Especie:"/>
+                    <h:outputText value="#{controleAnimal.selectedAnimal.especie}"/>
+                    
+                    
+                    <h:outputText value="Raça:"/>
+                    <h:outputText value="#{controleAnimal.selectedAnimal.raca}"/>
+                    
+                    
+                    <h:outputText value="Idade:"/>
+                    <h:outputText value="#{controleAnimal.selectedAnimal.idade}"/>
+                    
+                    
+                    <h:outputText value="Sexo:"/>
+                    <h:outputText value="#{controleAnimal.selectedAnimal.sexo}"/>
+                    
+                    
+                    <h:outputText value="Dono:"/>
+                    <h:outputText value="#{controleAnimal.selectedAnimal.dono.nome_cliente}"/>
+                    
+                    
+                </p:panelGrid>
+            </p:dialog>
+            
+             
+              <p:confirmDialog id="DialExcluir" visible="false" message="Deseja Realmente Excluir?"
+                widgetVar="widDialExcluir">
+                    <f:facet name="header">
+                    Atenção!!!
+                </f:facet>
+                  <center>
+                  <p:commandButton value="Sim" action="#{controleAnimal.deletarAnimal(controleAnimal.selectedAnimal)}"
+                                 oncomplete="PF('widDialExcluir').hide()" update="formularioListaAnimal"/>
+                <p:commandButton value="Não" oncomplete="PF('widDialExcluir').hide()"/>
+                  </center>
+            </p:confirmDialog>
+            
+                <p:confirmDialog id="DialNovoPro" visible="false" message="Deseja Realmente Criar novo prontuario?"
+                widgetVar="widDialNovoPro">
+                    <f:facet name="header">
+                    Atenção!!!
+                </f:facet>
+                 <center> 
+                     <p:commandButton value="Sim" action="#{controleProntuario.inserirProntuario(controleAnimal.selectedAnimal)}"
+                                 oncomplete="PF('widDialNovoPro').hide()" update="formularioListaAnimal"/>
+                <p:commandButton value="Não" oncomplete="PF('widDialNovoPro').hide()"/>
+                 </center>
+            </p:confirmDialog>
+        </h:form>
+        
+    </h:body>
+</html>
+
